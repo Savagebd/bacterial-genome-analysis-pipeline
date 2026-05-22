@@ -4,7 +4,7 @@
 *.fastq.gz
 *.fq.gz
 
-# Local config file
+# Local config file with sample-specific paths
 config.env
 
 # Pipeline output folders
@@ -12,11 +12,10 @@ config.env
 02_FastQC_Raw/
 03_Trimmed_FASTQ/
 04_FastQC_Trimmed/
-05_SPAdes_Assembly/
-06_QUAST/
-07_Prokka/
-08_MultiQC/
-09_Final_Summary/
+05_Assembly/
+06_Assembly_QC/
+07_Annotation/
+08_Notes/
 
 # Logs and temporary files
 *.log
@@ -27,6 +26,7 @@ config.env
 .env/
 .venv/
 __pycache__/
+
+# System files
 .DS_Store
 Thumbs.db
-
