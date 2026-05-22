@@ -211,3 +211,13 @@ conda env create -f environment.yml
 Then activate it with:
 
 conda activate Cortex
+
+## Author
+
+Created by Raihanul Islam (Savagebd) as a reusable bacterial genome analysis pipeline project.
+
+This repository is shared publicly as a portfolio and learning project. If you use or reference this work, please provide proper credit to the original repository.
+
+## Academic Integrity Notice
+
+This project represents my own learning, implementation, testing, and documentation work. The repository is public for transparency and portfolio purposes. Direct copying and submitting this project as someone else's original coursework is not permitted.
