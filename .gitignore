@@ -1,0 +1,32 @@
+# Raw sequencing data
+*.fastq
+*.fq
+*.fastq.gz
+*.fq.gz
+
+# Local config file
+config.env
+
+# Pipeline output folders
+01_Raw_FASTQ/
+02_FastQC_Raw/
+03_Trimmed_FASTQ/
+04_FastQC_Trimmed/
+05_SPAdes_Assembly/
+06_QUAST/
+07_Prokka/
+08_MultiQC/
+09_Final_Summary/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Conda / Python / system files
+.env/
+.venv/
+__pycache__/
+.DS_Store
+Thumbs.db
+

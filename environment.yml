@@ -1,0 +1,13 @@
+name: Cortex
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - fastqc
+  - fastp
+  - spades
+  - quast
+  - prokka
+  - multiqc
