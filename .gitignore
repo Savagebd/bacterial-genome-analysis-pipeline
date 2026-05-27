@@ -1,4 +1,5 @@
 # Raw sequencing data
+01_Raw_FASTQ/
 *.fastq
 *.fq
 *.fastq.gz
@@ -26,6 +27,7 @@ config.env
 .env/
 .venv/
 __pycache__/
+*.pyc
 
 # System files
 .DS_Store

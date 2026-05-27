@@ -1,37 +1,65 @@
-# Reusable Bacterial Genome Pipeline
+# Bacterial Genome Analysis Pipeline
 
-This folder contains a reusable Bash pipeline for paired-end bacterial genome analysis. The pipeline automates the workflow from raw FASTQ files to genome annotation and summary reporting.
+Reusable bacterial genome analysis workflow for paired-end FASTQ quality control, trimming, assembly, annotation, and summary reporting.
 
-## Workflow Steps
+This repository is part of a bioinformatics portfolio by Raihanul Islam (`Savagebd`). It is designed as a practical, reproducible template for bacterial genome projects that begin with paired-end raw sequencing reads.
 
-1. Raw FastQC
-2. fastp trimming
-3. FastQC after trimming
-4. SPAdes assembly
-5. QUAST assembly QC
-6. Prokka annotation
-7. MultiQC combined report
-8. Final summary report
+## What This Pipeline Does
 
-## Required Input Files
+The pipeline starts from paired-end bacterial FASTQ files and runs a standard genome analysis workflow:
 
-Each project should contain paired-end FASTQ files inside:
+```text
+Raw paired-end FASTQ
+-> raw FastQC
+-> fastp trimming
+-> post-trim FastQC
+-> SPAdes assembly
+-> QUAST assembly QC
+-> Prokka annotation
+-> MultiQC combined report
+-> final summary report
+```
 
+The workflow is intended for educational, research, and portfolio use. It is not a clinical diagnostic workflow.
+
+## Input Requirements
+
+This pipeline requires paired-end bacterial FASTQ reads, not assembled genome FASTA files.
+
+Place the input files inside the project-local input folder:
+
+```text
 01_Raw_FASTQ/
+```
 
-Example:
+Accepted file extensions include:
 
-sample_R1.fastq.gz
-sample_R2.fastq.gz
+```text
+.fastq
+.fq
+.fastq.gz
+.fq.gz
+```
 
-The files may be `.fastq` or `.fastq.gz`, but the exact filenames must be written correctly in `config.env`.
+The `R1` and `R2` paths in `config.env` must point to files inside `PROJECT_DIR/01_Raw_FASTQ`.
 
-R1 and R2 must point to files inside 01_Raw_FASTQ. The pipeline rejects raw FASTQ paths outside this folder to protect original sequencing files during reruns.
+## Workflow Overview
 
-## Project Folder Structure
+1. Validate `config.env` and input FASTQ paths.
+2. Run FastQC on raw reads.
+3. Trim reads with fastp.
+4. Run FastQC on trimmed reads.
+5. Assemble the genome with SPAdes.
+6. Evaluate assembly quality with QUAST.
+7. Annotate the assembly with Prokka.
+8. Build a combined MultiQC report.
+9. Write a final pipeline summary.
 
-Each project should use this structure:
+## Folder Structure
 
+Each analysis project should use this numbered folder style:
+
+```text
 01_Raw_FASTQ
 02_FastQC_Raw
 03_Trimmed_FASTQ
@@ -40,83 +68,64 @@ Each project should use this structure:
 06_Assembly_QC
 07_Annotation
 08_Notes
+```
 
-## Files in This Template
 
-run_pipeline.sh  
-Main automation script.
+## Template Files
 
-config.example.env  
-Example configuration file. Copy this into a project as `config.env` and edit it.
+```text
+run_pipeline.sh
+config.example.env
+environment.yml
+README.md
+PIPELINE_EXPLANATION.md
+.gitignore
+```
 
-environment.yml  
-Conda environment recipe for recreating the required software environment.
+The reusable template belongs in `00_Pipeline_Templates`. Each real analysis should be run from a separate project folder under `09_Projects`.
 
-PIPELINE_EXPLANATION.md  
-Faculty-ready explanation of the pipeline and validation.
+## Environment Setup
 
-README.md  
-Usage instructions.
+Create the Conda environment:
 
-## How to Use This Pipeline in a New Project
+```bash
+conda env create -f environment.yml
+```
 
-Create a new project folder:
+Activate it:
 
-mkdir -p ~/Bioinformatics/09_Projects/Your_Project_Name
+```bash
+conda activate Cortex
+```
 
-Go inside it:
+The environment file records the required software tools. The pipeline does not install or modify Conda environments automatically.
 
-cd ~/Bioinformatics/09_Projects/Your_Project_Name
+## Configuration
 
-Create standard folders:
+Copy the public example configuration into a private local config file:
 
-mkdir -p 01_Raw_FASTQ 02_FastQC_Raw 03_Trimmed_FASTQ 04_FastQC_Trimmed 05_Assembly 06_Assembly_QC 07_Annotation 08_Notes
-
-Place the paired FASTQ files inside:
-
-01_Raw_FASTQ/
-
-Copy the pipeline files into the project:
-
-cp ~/Bioinformatics/00_Pipeline_Templates/bacterial_genome_pipeline/run_pipeline.sh .
-cp ~/Bioinformatics/00_Pipeline_Templates/bacterial_genome_pipeline/config.example.env ./config.env
-cp ~/Bioinformatics/00_Pipeline_Templates/bacterial_genome_pipeline/environment.yml .
-
-Edit the config file:
-
+```bash
+cp config.example.env config.env
 nano config.env
+```
 
-## What to Edit in config.env
+Edit these values:
 
-PROJECT_DIR  
-Full path to the project folder.
-
-SAMPLE_ID  
-Short sample name used for output folders and reports.
-
-R1  
-Full path to the forward FASTQ file.
-
-R2  
-Full path to the reverse FASTQ file.
-
-GENUS  
-Organism genus for Prokka annotation.
-
-SPECIES  
-Organism species for Prokka annotation.
-
-STRAIN  
-Strain/sample name for Prokka annotation.
-
-THREADS  
-Number of CPU threads to use.
-
-SPADES_MEMORY  
-RAM limit in GB for SPAdes.
+```text
+PROJECT_DIR
+SAMPLE_ID
+R1
+R2
+GENUS
+SPECIES
+STRAIN
+THREADS
+SPADES_MEMORY
+```
 
 Example:
 
+```bash
 PROJECT_DIR="$HOME/Bioinformatics/09_Projects/BTK1"
 SAMPLE_ID="BTK1"
 
@@ -129,92 +138,122 @@ STRAIN="BTK1"
 
 THREADS="4"
 SPADES_MEMORY="8"
+```
+
+`config.example.env` is safe to commit. `config.env` is local, sample-specific, and ignored by Git.
 
 ## How to Run
 
-Activate the Conda environment:
+From the project folder:
 
-conda activate Cortex
-
-Run the pipeline:
-
+```bash
+chmod +x run_pipeline.sh
 ./run_pipeline.sh
+```
 
-## Important Outputs
+The script can also be run with an explicit config path:
 
-Raw FastQC reports:
+```bash
+./run_pipeline.sh path/to/config.env
+```
 
+## Output Explanation
+
+Important outputs include:
+
+```text
 02_FastQC_Raw/
+```
 
-Trimmed FASTQ files:
+Raw read quality reports.
 
+```text
 03_Trimmed_FASTQ/
+```
 
-Trimmed FastQC reports:
+Trimmed paired-end FASTQ files and fastp reports.
 
+```text
 04_FastQC_Trimmed/
+```
 
-SPAdes assembly:
+Post-trimming read quality reports.
 
+```text
 05_Assembly/
+```
 
-Main assembly file:
+SPAdes assembly output, including `contigs.fasta`.
 
-contigs.fasta
-
-QUAST assembly QC report:
-
+```text
 06_Assembly_QC/
+```
 
-Prokka annotation:
+QUAST assembly quality reports.
 
+```text
 07_Annotation/
+```
 
-Important Prokka files:
+Prokka genome annotation files such as `.gff`, `.gbk`, `.faa`, `.ffn`, `.fna`, `.tsv`, and `.txt`.
 
-.gff
-.gbk
-.faa
-.ffn
-.fna
-.tsv
-.txt
-
-MultiQC combined report:
-
+```text
 08_Notes/multiqc/multiqc_report.html
-
-Final pipeline summary:
-
 08_Notes/pipeline_summary.txt
-
-Pipeline log:
-
 08_Notes/logs/
+```
 
-## Safety Notes
+Combined MultiQC report, final pipeline summary, and logs.
 
-The pipeline does not delete raw FASTQ files.
+## Safety Design
 
-Only generated output folders are replaced during reruns.
+The pipeline includes basic safety checks:
 
-Always check `config.env` carefully before running the pipeline.
+- `SAMPLE_ID` is validated before being used in output names.
+- `R1` and `R2` must resolve inside `PROJECT_DIR/01_Raw_FASTQ`.
+- Raw FASTQ files are not deleted during reruns.
+- Rerun cleanup only removes generated output folders.
+- Path traversal patterns are rejected for input files.
 
-Always confirm that R1 and R2 filenames match the actual files in `01_Raw_FASTQ`.
+Always inspect `config.env` before running the workflow.
 
-## Environment Recreation
+## Validation Note
 
-The required Conda environment can be recreated with:
+This pipeline was validated during development with the BTK1 bacterial genome project and later tested with SRR2093871 in the same reusable workflow style. The validation compared manually generated results with automated pipeline results to confirm that the scripted workflow reproduced the expected analysis steps.
 
-conda env create -f environment.yml
+## Interpretation Notes
 
-Then activate it with:
+The outputs support genome assembly and annotation review. QUAST metrics help assess assembly quality, and Prokka annotations provide predicted genomic features.
 
-conda activate Cortex
+These outputs do not prove strain identity, virulence, pathogenicity, or clinical significance by themselves. Any biological interpretation should be made with appropriate downstream analyses, metadata, and experimental context.
+
+## Limitations
+
+- The pipeline is designed for paired-end bacterial FASTQ reads.
+- It is not intended for raw long-read-only workflows without modification.
+- It does not perform taxonomic confirmation, contamination screening, antimicrobial resistance prediction, or virulence prediction.
+- It is not a clinical or diagnostic pipeline.
+- Assembly and annotation results are computational predictions and should be reviewed before biological conclusions are made.
+
+## Future Improvements
+
+Possible future additions include:
+
+- contamination screening
+- taxonomic classification
+- antimicrobial resistance gene screening
+- virulence gene screening
+- plasmid detection
+- long-read or hybrid assembly support
+- automated final report tables from QUAST and Prokka outputs
+
+## Portfolio / Faculty Value
+
+This project demonstrates practical command-line bioinformatics skills, reproducible project organization, Bash automation, Conda environment management, and safe handling of raw sequencing input files. It serves as the foundational project in a broader bacterial genomics portfolio.
 
 ## Author
 
-Created by Raihanul Islam (Savagebd) as a reusable bacterial genome analysis pipeline project.
+Created by Raihanul Islam (`Savagebd`) as a reusable bacterial genome analysis pipeline project.
 
 This repository is shared publicly as a portfolio and learning project. If you use or reference this work, please provide proper credit to the original repository.
 
