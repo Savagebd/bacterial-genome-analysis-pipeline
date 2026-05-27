@@ -246,7 +246,7 @@ Possible future additions include:
 - long-read or hybrid assembly support
 - automated final report tables from QUAST and Prokka outputs
 
-## Portfolio / Faculty Value
+## Skills Demonstrated
 
 This project demonstrates practical command-line bioinformatics skills, reproducible project organization, Bash automation, Conda environment management, and safe handling of raw sequencing input files. It serves as the foundational project in a broader bacterial genomics portfolio.
 

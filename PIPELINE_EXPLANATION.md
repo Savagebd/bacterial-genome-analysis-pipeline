@@ -88,6 +88,6 @@ The pipeline produces computational assembly and annotation results. These resul
 
 They do not prove strain identity, virulence, pathogenicity, clinical relevance, or biological function by themselves. Strong biological claims require additional analyses, metadata, curated databases, and often experimental validation.
 
-## Portfolio Value
+## Skills Demonstrated
 
 This project demonstrates core bioinformatics skills: command-line workflow design, raw-read quality control, read trimming, genome assembly, assembly evaluation, annotation, reproducible configuration, and safe project organization.
