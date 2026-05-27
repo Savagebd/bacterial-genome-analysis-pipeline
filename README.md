@@ -2,7 +2,6 @@
 
 Reusable bacterial genome analysis workflow for paired-end FASTQ quality control, trimming, assembly, annotation, and summary reporting.
 
-This repository is part of a bioinformatics portfolio by Raihanul Islam (`Savagebd`). It is designed as a practical, reproducible template for bacterial genome projects that begin with paired-end raw sequencing reads.
 
 ## What This Pipeline Does
 
